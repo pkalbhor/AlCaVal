@@ -194,8 +194,8 @@ class MatrixInjector(object):
             "Multicore" : opt.nThreads,                       # this is the per-taskchain Multicore; it's the default assigned to a task if it has no value specified 
             "EventStreams": self.numberOfStreams,
             "KeepOutput" : False,
-            "RequiresGPU" : None,
-            "GPUParams": None
+            #"RequiresGPU" : None,
+            #"GPUParams": None
             }
         self.defaultGPUParams={
             "GPUMemoryMB": self.GPUMemoryMB,
