@@ -54,7 +54,8 @@ class InputInfo(object):
     def __str__(self):
         if self.ib_block:
             return "input from: {0} with run {1}#{2}".format(self.dataSet, self.ib_block, self.run)
-        return "input from: {0} with run {1}".format(self.dataSet, self.run)
+        run = self.run if len(self.run) else list(self.ls.keys())
+        return "input from: {0} with run {1}".format(self.dataSet, run)
 
     def das(self, das_options, dataset):
         if len(self.run) != 0 or self.ls:
