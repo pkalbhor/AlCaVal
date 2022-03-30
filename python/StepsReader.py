@@ -60,6 +60,12 @@ class StepsReader(object):
                 cfg = v
                 continue # do not append to cmd, return separately
             if k.lower() == 'input':
+                if isinstance(self.opt.ls, dict):
+                    v.ls = self.opt.ls
+                    v.run = []
+                if isinstance(self.opt.run, list):
+                    v.run = [int(i) for i in self.opt.run]
+                    v.ls = {}
                 input = v 
                 continue # do not append to cmd, return separately
             

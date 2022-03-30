@@ -1,4 +1,4 @@
-import os
+import os, ast
 from python.StepsReader import StepsReader
 from python.MatrixRunner import MatrixRunner
 from python.MatrixInjector import MatrixInjector, performInjectionOptionTest
@@ -177,6 +177,7 @@ parser.add_argument('--dbs-url',
         dest='dbsUrl',
         default=None,
         action='store')
+
 parser.add_argument('--hltGT',
         help='HLT GT to be attached in HLT step',
         dest='hltGT',
@@ -192,6 +193,16 @@ parser.add_argument('--promptGT',
         dest='promptGT',
         default=None,
         action='store')
+
+inputgroup = parser.add_mutually_exclusive_group()
+inputgroup.add_argument('--ls',
+        type=ast.literal_eval,
+        help='Pass run numbers and LS as a input in json formated string. e.g. "{346512: [[1, 200]]}"')
+inputgroup.add_argument('--run',
+        nargs='+',
+        help='Pass run numbers to process as a input. Multiple runs can be provided separated by space',
+        required=False)
+
 gpugroup = parser.add_argument_group('GPU-related options','These options are only meaningful when --gpu is used, and is not set to forbidden.')
 
 gpugroup.add_argument('--gpu','--requires-gpu',
