@@ -19,6 +19,7 @@ class StepsReader(object):
 
         self.reset(opt.what)
 
+        self.opt = opt
         self.wm=opt.wmcontrol
         self.revertDqmio=opt.revertDqmio
         self.addCommand=opt.command
@@ -76,6 +77,7 @@ class StepsReader(object):
         except Exception as e:
             print("ERROR importing file ", fileNameIn, str(e))
             return
+
         for num, wfInfo in self.alcavalModule.workflows.items():
             print(num, wfInfo)
 
@@ -140,6 +142,7 @@ class StepsReader(object):
                         break
             for (stepI,step) in enumerate(stepList):
                 stepName=step
+                self.modifyWorkflows(stepIndex, len(stepList), stepName)
                 if self.alcavalModule.steps[stepName] is None:
                     continue         
                 #replace stepName is needed
@@ -215,6 +218,7 @@ class StepsReader(object):
             except Exception as e:
                 print("ERROR creating workflows :", str(e))
                 raise
+
     def createWorkFlows(self, fileNameIn):
 
         prefixIn = self.filesPrefMap[fileNameIn]
@@ -241,6 +245,20 @@ class StepsReader(object):
             self.workFlows.append(WorkFlow(num, name, commands=commands))
 
         return
+    def modifyWorkflows(self, stepIndex, numOfSteps, stepName):
+        if bool(self.opt.hltGT) is True and bool(self.opt.promptGT) is False:
+            raise ValueError("Please provide Prompt new GT along with HLT GT for submitting HLT workflow")
+        if numOfSteps == 4 and stepIndex == 1 and self.opt.hltGT:
+            self.alcavalModule.steps[stepName].update({'--conditions': self.opt.hltGT})
+        if numOfSteps == 4 and (stepIndex in [2, 3]) and self.opt.hltGT:
+            self.alcavalModule.steps[stepName].update({'--conditions': self.opt.promptGT})
+        if numOfSteps == 3 and stepIndex in [1, 2]:
+            if self.opt.promptGT:
+                self.alcavalModule.steps[stepName].update({'--conditions': self.opt.promptGT})
+            if self.opt.expressGT:
+                self.alcavalModule.steps[stepName].update({'--conditions': self.opt.expressGT})
+
+
     def show(self, selected=None, extended=True, cafVeto=True):
 
         self.showWorkFlows(selected, extended, cafVeto)

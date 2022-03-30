@@ -177,6 +177,21 @@ parser.add_argument('--dbs-url',
         dest='dbsUrl',
         default=None,
         action='store')
+parser.add_argument('--hltGT',
+        help='HLT GT to be attached in HLT step',
+        dest='hltGT',
+        default=None,
+        action='store')
+parser.add_argument('--expressGT',
+        help='Express GT to be attached in RECO step',
+        dest='expressGT',
+        default=None,
+        action='store')
+parser.add_argument('--promptGT',
+        help='Prompt GT to be attached in RECO step',
+        dest='promptGT',
+        default=None,
+        action='store')
 gpugroup = parser.add_argument_group('GPU-related options','These options are only meaningful when --gpu is used, and is not set to forbidden.')
 
 gpugroup.add_argument('--gpu','--requires-gpu',
