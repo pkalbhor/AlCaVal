@@ -77,12 +77,19 @@ class StepsReader(object):
 
     def collectSteps(self, fileNameIn):
         prefix = self.filesPrefMap[fileNameIn]
+        print("processing", fileNameIn)
         try:
             _tmpMod = __import__( 'python.'+fileNameIn )
             self.alcavalModule = sys.modules['python.'+fileNameIn]
         except Exception as e:
             print("ERROR importing file ", fileNameIn, str(e))
             return
+
+        #overwrite steps
+        if self.overWrite:
+            for p in self.overWrite:
+                print(p)
+                self.alcavalModule.steps.overwrite(p)
 
         for num, wfInfo in self.alcavalModule.workflows.items():
             print(num, wfInfo)
@@ -146,6 +153,7 @@ class StepsReader(object):
                             stepList.pop(0)
                         #print "\t\tmod",stepList
                         break
+
             for (stepI,step) in enumerate(stepList):
                 stepName=step
                 self.modifyWorkflows(stepIndex, len(stepList), stepName)
@@ -188,12 +196,12 @@ class StepsReader(object):
                         cmd  = 'cmsDriver.py step'+str(stepIndex+1)+' '+opts
                     if self.wm:
                         cmd+=' --io %s.io --python %s.py'%(stepName,stepName)
-                    # if self.addCommand:
-                    #     if self.apply:
-                    #         if stepIndex in self.apply or stepName in self.apply:
-                    #             cmd +=' '+self.addCommand
-                    #     else:
-                    #       cmd +=' '+self.addCommand
+                    if self.addCommand:
+                        if self.apply:
+                            if stepIndex in self.apply or stepName in self.apply:
+                                cmd +=' '+self.addCommand
+                        else:
+                          cmd +=' '+self.addCommand
                     if self.wm and self.revertDqmio=='yes':
                         cmd=cmd.replace('DQMIO','DQM')
                         cmd=cmd.replace('--filetype DQM','')

@@ -1,6 +1,34 @@
 # Copied from https://github.com/cms-sw/cmssw/
-
+from __future__ import print_function
 import os
+
+class Matrix(dict):
+    def __setitem__(self,key,value):
+        if key in self:
+            print("ERROR in Matrix")
+            print("overwriting",key,"not allowed")
+        else:
+            self.update({float(key):WF(float(key),value)})
+
+    def addOverride(self,key,override):
+        self[key].addOverride(override)
+
+
+class WF(list):
+    def __init__(self,n,l):
+        self.extend(l)
+        self.num=n
+        #the actual steps of this WF
+        self.steps=[]
+        self.overrides={}
+    def addOverride(self,overrides):
+        self.overrides=overrides
+        
+    def interpret(self,stepsDict):
+        for s in self:
+            print('steps',s,stepsDict[s])
+            steps.append(stepsDict[s])
+
 # merge dictionaries, with prioty on the [0] index
 def merge(dictlist,TELL=False):
     import copy

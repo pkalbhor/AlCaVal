@@ -1,6 +1,6 @@
 
 from python.alcaval_steps import *
-workflows = dict()
+workflows = Matrix()
 
 # CRUZET 2021
 workflows[1.1] = ['CRUZET2022', ['Cosmics2021', 'HLT_CRUZET2021', 'RECO_CRUZET2021', 'HARVEST_CRUZET2021']]

@@ -1,3 +1,5 @@
+#!/bin/env python3
+
 import os, ast
 from python.StepsReader import StepsReader
 from python.MatrixRunner import MatrixRunner
