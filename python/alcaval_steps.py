@@ -76,8 +76,29 @@ steps['RECO_CRUZET2021']=merge([{'--scenario':'cosmics',
                               )
 steps['RECO_MWGR2022']=merge([ steps['RECO_CRUZET2021'] ])
 steps['RECO_CRAFT2022']=merge([{'--scenario':'cosmics', '-s' : 'RAW2DIGI,L1Reco,RECO,DQM'},step3Defaults])
+steps['RECO_MRH_Test']=merge([{'-s': 'RAW2DIGI,L1Reco,RECO,ALCAPRODUCER:SiStripCalMinBiasAAG,ENDJOB',
+                                '--conditions'  : '123X_dataRun3_Express_MRH_harvest_test',
+                                '--datatier' : 'ALCARECO', '--eventcontent': 'ALCARECO',
+                                '--process'  : 'RECO',
+                                '--customise': 'Configuration/DataProcessing/RecoTLR.customiseExpress',
+                                '--scenario' : 'pp',
+                                '--era'      : 'Run3',
+                                '--no_exec'  : '',
+                                '--data'     : ''
+                                }])
 
-
+steps['ALCARECO_MRH_Test']=merge([{'-s': 'ALCAOUTPUT:SiStripCalMinBiasAAG,ALCA:PromptCalibProdSiStripGainsAAG',
+                                    '--conditions'  : '123X_dataRun3_Express_MRH_harvest_test',
+                                    '--datatier': 'ALCARECO',
+                                    '--eventcontent': 'ALCARECO',
+                                    '--process'  : 'reRECO',
+                                    '--customise': 'Configuration/DataProcessing/RecoTLR.customiseExpress',
+                                    '--scenario' : 'pp',
+                                    '--era'      : 'Run3',
+                                    '--no_exec'  : '',
+                                    '--data'     : '',
+                                    '--triggerResultsProcess': 'RECO'
+                                    }])
 # Step4 HARVESTING
 steps['HARVESTD']={'-s':'HARVESTING:dqmHarvesting',
                    '--conditions':'auto:run3_data',

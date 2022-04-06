@@ -23,3 +23,6 @@ workflows[3.2] = ['MWGR2022', ['HcalNZS2022', 'RECO_MWGR2022', 'HARVEST_MWGR2022
 # CRAFT 2022
 workflows[4.1] = ['CRAFT2022', ['HLTPhysics2022', 'HLT_CRAFT22', 'RECO_CRAFT2022', 'HARVEST_CRAFT22']]
 workflows[4.2] = ['CRAFT2022', ['HLTPhysics2022', 'RECO_CRAFT2022', 'HARVEST_CRAFT22']]
+
+# MRH Test for Express WF
+workflows[5.1] = ['MRHTest22', ['MinimumBias2021', 'RECO_MRH_Test', 'ALCARECO_MRH_Test']]
